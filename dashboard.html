@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyber Tactix - Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="dashboard.js" defer></script>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="profile-dropdown">
+      <div class="profile-icon" id="profileIcon">👤</div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <p id="dropdownEmail">User</p>
+        <hr />
+        <button id="editProfileBtn">✏️ Edit Profile</button>
+        <button id="logoutBtn">🚪 Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <nav class="sidebar">
+      <div class="logo">Cyber Tactix</div>
+      <div class="nav-menu">
+        <button class="sidebar-btn">Operations</button>
+        <button class="sidebar-btn" id="blacklinkLink">Blacklink Projects</button>
+        <button class="sidebar-btn">Team Members</button>
+        <button class="sidebar-btn">Analytics</button>
+        <a href="submit.html" class="sidebar-btn" style="color: #52d3b8; font-family: 'Poppins', 'Segoe UI', sans-serif; font-weight: bold;">Submit Daily Files</a>
+      </div>
+    </nav>
+
+    <main class="content">
+      <h1>Operational Dashboard</h1>
+
+      <div class="stats-grid">
+        <div class="stat-card"><h3>Active Projects</h3><p id="activeProjects">5</p></div>
+        <div class="stat-card"><h3>Team Members</h3><p id="teamMembers">50</p></div>
+        <div class="stat-card"><h3>Success Rate</h3><p id="successRate">90%</p></div>
+      </div>
+
+      <div class="projects-section" id="blacklinkSection" style="display: none;">
+        <h2>📂 Blacklink Daily Reports</h2>
+        <div id="blacklinkList"></div>
+      </div>
+
+      <div class="edit-profile-section" id="editProfileSection" style="display:none;">
+        <h2>Edit Profile</h2>
+        <input type="text" id="editId" placeholder="User ID" />
+        <input type="email" id="editEmail" placeholder="Email" />
+        <button id="saveBtn">Save Changes</button>
+        <div id="saveMsg" style="color: #64ffda; margin-top: 10px;"></div>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

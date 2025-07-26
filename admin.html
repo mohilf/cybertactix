@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - EDC Programming Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+    }
+
+    header {
+      background: aqua;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: black;
+    }
+
+    section {
+      margin: 20px;
+      background: #1c1c1c;
+      padding: 20px;
+      border: 2px solid cyan;
+      border-radius: 10px;
+    }
+
+    h2 {
+      border-left: 5px solid cyan;
+      padding-left: 10px;
+    }
+
+    #webcam {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      background: darkgreen;
+      border: 2px solid cyan;
+      border-radius: 5px;
+    }
+
+    .stats-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .stats-section li {
+      margin-bottom: 8px;
+      padding-left: 10px;
+      border-left: 4px solid cyan;
+    }
+
+    .input-area {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .form-row label {
+      width: 120px;
+      font-weight: bold;
+    }
+
+    .form-row input {
+      flex: 1;
+      padding: 6px;
+    }
+
+    .print-btn {
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: white;
+      color: black;
+    }
+
+    .receipt-container {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      padding: 1cm;
+      background: none !important;
+      color: black;
+    }
+
+    .receipt-wrapper {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      page-break-inside: avoid;
+      height: 100%;
+    }
+
+    .receipt {
+      width: 48%;
+      border: 1px dashed #000;
+      padding: 10px;
+      box-sizing: border-box;
+      height: 95%;
+      background-color: rgba(255,255,255,0.95);
+      font-size: 13px;
+    }
+
+    .receipt h3 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .receipt hr {
+      border: none;
+      border-top: 1px solid #000;
+      margin: 5px 0;
+    }
+
+    /* Summary Section */
+    .summary-section {
+      margin: 20px;
+      background: #1c1c1c;
+      padding: 20px;
+      border: 2px solid cyan;
+      border-radius: 10px;
+    }
+
+    .summary-section h2 {
+      border-left: 5px solid cyan;
+      padding-left: 10px;
+      color: #ccffcc;
+    }
+
+    .summary-card {
+      margin-top: 10px;
+      background: #222;
+      padding: 15px;
+      border-left: 5px solid cyan;
+      border-radius: 8px;
+      color: #ccffcc;
+    }
+
+    .summary-card p {
+      margin: 5px 0;
+    }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 0.5cm;
+      }
+
+      body * {
+        visibility: hidden;
+      }
+
+      .receipt-container,
+      .receipt-container * {
+        visibility: visible;
+      }
+
+      .receipt-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .receipt-wrapper {
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        height: 100%;
+      }
+
+      .receipt {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cyber Tactix Admin Panel</h1>
+  </header>
+
+  <section class="webcam-section">
+    <h2>📹 Live Webcam Feed</h2>
+    <video id="webcam" autoplay playsinline></video>
+  </section>
+
+  <section class="stats-section">
+    <h2>📊 User Statistics</h2>
+    <ul>
+      <li>Total Users: 120</li>
+      <li>Active Today: 34</li>
+      <li>Payments Pending: 7</li>
+    </ul>
+  </section>
+
+  <section class="summary-section">
+    <h2>📅 জুলাই মাসের সারসংক্ষেপ</h2>
+    <div class="summary-card">
+      <p><strong>মোট ইনকাম:</strong> ৳120,000</p>
+      <p><strong>মোট খরচ:</strong> ৳35,000</p>
+      <p><strong>লাভ:</strong> ৳85,000</p>
+    </div>
+  </section>
+
+  <section class="input-area">
+    <h2>💳 Enter Payment Info</h2>
+    <div class="form-row"><label>Name:</label><input type="text" id="name" /></div>
+    <div class="form-row"><label>Phone:</label><input type="text" id="phone" /></div>
+    <div class="form-row"><label>Address:</label><input type="text" id="address" /></div>
+    <div class="form-row"><label>Date:</label><input type="date" id="date" /></div>
+    <div class="form-row"><label>Amount:</label><input type="text" id="amount" /></div>
+    <button class="print-btn" onclick="generateReceipt()">🖨️ Print Receipt</button>
+  </section>
+
+  <div id="receipt-container" class="receipt-container"></div>
+
+  <script>
+    // Webcam Stream
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        document.getElementById("webcam").srcObject = stream;
+      })
+      .catch(err => {
+        console.error("Webcam not accessible", err);
+      });
+
+    // Generate Receipt
+    function generateReceipt() {
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const address = document.getElementById("address").value;
+      const date = document.getElementById("date").value;
+      const amount = document.getElementById("amount").value;
+      const time = new Date().toLocaleTimeString();
+
+      const receiptHTML = `
+        <div class="receipt">
+          <h3>Experiment Discovery Creation & Programming Hub</h3>
+          <p style="text-align:center">Pachshira, Kalai, Joypurhat<br>Phone: 01761896572</p>
+          <hr>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Address:</strong> ${address}</p>
+          <p><strong>Date:</strong> ${date}</p>
+          <p><strong>Time:</strong> ${time}</p>
+          <p><strong>Amount:</strong> ৳${amount}</p>
+          <br><br>
+          <p style="text-align:right"><strong>Signature:</strong> _______________________</p>
+        </div>`;
+
+      document.getElementById("receipt-container").innerHTML = `
+        <div class="receipt-wrapper">
+          ${receiptHTML}
+          ${receiptHTML}
+        </div>`;
+      
+      document.getElementById("receipt-container").style.display = "block";
+      window.print();
+      document.getElementById("receipt-container").style.display = "none";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Cyber Tactix</title>
+  <script src="users.js" defer></script>
+  <script src="auth.js" defer></script>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body.login-page {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    /* Container */
+    .login-container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 40px 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      text-align: center;
+    }
+
+    /* Logo / Brand */
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #00ffe7;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* Form */
+    .auth-form h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .auth-form input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      background-color: #1c1c1c;
+      color: #fff;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .auth-form input:focus {
+      background-color: #2b2b2b;
+      outline: none;
+    }
+
+    /* Button */
+    .auth-form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00ffe7;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .auth-form button:hover {
+      background-color: #00cfc0;
+    }
+
+    /* Message */
+    #authMessage {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ff4d4d;
+    }
+
+    /* Security Notice */
+    .security-notice {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #bbbbbb;
+    }
+  </style>
+</head>
+<body class="login-page">
+  <div class="login-container">
+    <div class="logo">Cyber Tactix</div>
+    <form id="loginForm" class="auth-form">
+      <h2>Login</h2>
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <div id="authMessage"></div>
+    </form>
+    <p class="security-notice">Only authorized users may access.</p>
+  </div>
+</body>
+</html>
