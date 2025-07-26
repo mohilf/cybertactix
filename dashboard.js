@@ -31,6 +31,9 @@ document.getElementById("saveBtn").addEventListener("click", () => {
     localStorage.setItem("userId", newId);
     localStorage.setItem("userEmail", newEmail);
     document.getElementById("saveMsg").textContent = "✅ Profile updated!";
+    setTimeout(() => {
+      document.getElementById("saveMsg").textContent = "";
+    }, 3000);
   } else {
     document.getElementById("saveMsg").textContent = "❌ Fields cannot be empty.";
   }
@@ -49,9 +52,9 @@ function showBlacklinkReports() {
   section.style.display = "block";
 
   const reports = [
-    { date: "26 July 2025", time: "10:00 AM", file: "files/report-26jul.pdf" },
-    { date: "25 July 2025", time: "11:30 AM", file: "files/report-25jul.pdf" },
-    { date: "24 July 2025", time: "09:15 AM", file: "files/report-24jul.pdf" },
+    { date: "26 July 2025", time: "10:00 AM", URL: "https://docs.google.com/spreadsheets/d/1cMwE9wwVr1IRrAFhtmsIqXFhnuJMBXcT3_zAC_00UA4/edit?gid=0#gid=0" },
+    { date: "25 July 2025", time: "11:30 AM", URL: "https://docs.google.com/spreadsheets/d/1YlDCB5MTx9UsLev0zObHp5TVy_l_qwM1GsYwFafUNJg/edit?gid=0#gid=0" },
+    { date: "24 July 2025", time: "09:15 AM", file: "https://docs.google.com/spreadsheets/d/17PeenQ045ia9A5muagg1apVhSiUFmIO_Gerg9gXtmRU/edit?gid=0#gid=0" },
   ];
 
   list.innerHTML = "";
@@ -60,16 +63,34 @@ function showBlacklinkReports() {
     const row = document.createElement("div");
     row.classList.add("report-row");
 
+    let actionButton = "";
+
+    if (report.URL) {
+      actionButton = `<a href="${report.URL}" target="_blank">
+                        <button class="open-link-btn" type="button">Open Link</button>
+                      </a>`;
+    } else if (report.file) {
+      actionButton = `<form action="${report.file}" method="get" target="_blank">
+                        <button class="download-btn" type="submit">Download</button>
+                      </form>`;
+    }
+
     row.innerHTML = `
       <span>📅 ${report.date}</span>
       <span>⏰ ${report.time}</span>
-      <form action="${report.file}" method="get">
-        <button class="download-btn" type="submit">Download</button>
-      </form>
+      ${actionButton}
     `;
 
     list.appendChild(row);
   });
-
-  
 }
+
+// ===== Auto-hide Dropdown When Clicking Outside =====
+document.addEventListener("click", (e) => {
+  const dropdown = document.getElementById("dropdownMenu");
+  const profileIcon = document.getElementById("profileIcon");
+  if (!dropdown.contains(e.target) && !profileIcon.contains(e.target)) {
+    dropdown.style.display = "none";
+  }
+});
+
